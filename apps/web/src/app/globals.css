@@ -1,0 +1,150 @@
+@import 'tailwindcss';
+
+/*
+ * TraceForge design tokens. Components use only these semantic variables (via the Tailwind theme below), never raw
+ * colors, so both themes stay consistent. Dark is the primary environment; light is fully implemented.
+ */
+:root,
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0b0d11;
+  --sidebar: #0e1116;
+  --surface: #12151b;
+  --surface-2: #171b23;
+  --surface-3: #1b2030;
+  --line: #222733;
+  --line-strong: #2c3340;
+  --text: #e8ebf1;
+  --muted: #9aa3b4;
+  --dim: #7a8497;
+  --accent: #6b8cff;
+  --accent-fg: #0b0d11;
+  --accent-soft: #1b2340;
+  --ok: #3ddc97;
+  --ok-soft: #12271d;
+  --warn: #f5a524;
+  --warn-soft: #2a2110;
+  --err: #f26b76;
+  --err-soft: #2a1519;
+  --err-text: #ff9aa3;
+  --warn-text: #f5c565;
+  --ok-text: #7be8b5;
+  --series-1: #6b8cff;
+  --series-2: #f5a524;
+  --series-3: #c084fc;
+  --series-4: #2ec4b6;
+  --series-5: #f472b6;
+  --series-6: #d6c28f;
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  --bg: #f6f7f9;
+  --sidebar: #ffffff;
+  --surface: #ffffff;
+  --surface-2: #f1f3f6;
+  --surface-3: #e8ecf2;
+  --line: #e1e5ec;
+  --line-strong: #cdd3de;
+  --text: #14171f;
+  --muted: #4d5666;
+  --dim: #667085;
+  --accent: #2f55e0;
+  --accent-fg: #ffffff;
+  --accent-soft: #e6ecff;
+  --ok: #0f8a5a;
+  --ok-soft: #e0f5ec;
+  --warn: #b45f06;
+  --warn-soft: #fdf0dc;
+  --err: #c4303d;
+  --err-soft: #fde8ea;
+  --err-text: #a3202d;
+  --warn-text: #8a4a04;
+  --ok-text: #0b6e47;
+  --series-1: #2f55e0;
+  --series-2: #c2680a;
+  --series-3: #8b3fd1;
+  --series-4: #12877c;
+  --series-5: #c9327f;
+  --series-6: #8a7340;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-sidebar: var(--sidebar);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-dim: var(--dim);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-soft: var(--accent-soft);
+  --color-ok: var(--ok);
+  --color-ok-soft: var(--ok-soft);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-err: var(--err);
+  --color-err-soft: var(--err-soft);
+  --color-err-text: var(--err-text);
+  --color-warn-text: var(--warn-text);
+  --color-ok-text: var(--ok-text);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --radius-control: 6px;
+  --radius-panel: 8px;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--accent-soft);
+}
+
+/* Visible keyboard focus everywhere; mouse clicks do not show the ring. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes flash {
+  from {
+    background-color: var(--accent-soft);
+  }
+  to {
+    background-color: transparent;
+  }
+}
+
+.flash {
+  animation: flash 900ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

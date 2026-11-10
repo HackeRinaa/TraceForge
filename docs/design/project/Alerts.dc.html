@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>TraceForge Alerts</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+<style>body{margin:0;background:#0b0d11}button{font-family:inherit}</style>
+</helmet>
+<div style="--bg:#0b0d11;--side:#0e1116;--s1:#12151b;--s2:#171b23;--line:#222733;--line2:#2c3340;--tx:#e8ebf1;--mut:#9aa3b4;--dim:#6f7889;--acc:#6b8cff;--ok:#3ddc97;--warn:#f5a524;--err:#f26b76;display:flex;flex-wrap:wrap;min-height:900px;background:var(--bg);color:var(--tx);font-family:Inter,system-ui,sans-serif;font-size:13px;line-height:1.45">
+
+<aside style="flex:0 0 232px;background:var(--side);border-right:1px solid var(--line);padding:14px 12px;box-sizing:border-box;display:flex;flex-direction:column;gap:6px">
+<div style="display:flex;align-items:center;gap:10px;padding:2px 6px 14px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6b8cff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h9M8 12h12M12 19h8"/><circle cx="4" cy="5" r="1.4" fill="#6b8cff"/></svg><span style="font-weight:600;font-size:15px">TraceForge</span></div>
+<sc-for list="{{nav}}" as="n" hint-placeholder-count="6">
+<a href="Main.dc.html" style="display:flex;align-items:center;gap:10px;padding:7px 9px;border-radius:6px;text-decoration:none;color:{{n.color}};background:{{n.bg}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{n.d}}"/></svg>{{n.label}}</a>
+</sc-for>
+</aside>
+
+<div style="flex:999 1 560px;min-width:0;padding:20px 24px 32px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px"><div style="flex:1 1 300px"><h1 style="margin:0;font-size:20px;font-weight:600">Alerts</h1><p style="margin:2px 0 0;color:var(--mut)">Rules are evaluated against stored telemetry every 15 seconds.</p></div>
+<button style="background:var(--acc);color:#0b0d11;border:0;border-radius:6px;padding:7px 14px;font-weight:600;cursor:pointer">New alert rule</button></div>
+
+<div style="display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start">
+<section style="flex:999 1 560px;min-width:0;display:flex;flex-direction:column;gap:12px">
+<div style="background:var(--s1);border:1px solid var(--line);border-radius:8px">
+<div style="padding:11px 16px;border-bottom:1px solid var(--line);font-weight:600">Incidents</div>
+<sc-for list="{{incidents}}" as="i" hint-placeholder-count="3">
+<div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:12px 16px;border-top:1px solid var(--line)">
+<span style="font-size:11px;font-family:'JetBrains Mono',monospace;padding:2px 8px;border-radius:4px;color:{{i.fg}};background:{{i.bg}};min-width:86px;text-align:center">{{i.state}}</span>
+<div style="flex:1 1 260px"><div style="font-weight:500">{{i.title}}</div><div style="color:var(--mut);font-size:12px;margin-top:1px">{{i.sub}}</div></div>
+<span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--mut)">{{i.when}}</span>
+</div>
+</sc-for>
+</div>
+<div style="background:var(--s1);border:1px solid var(--line);border-radius:8px">
+<div style="padding:11px 16px;border-bottom:1px solid var(--line);font-weight:600">Rules</div>
+<sc-for list="{{rules}}" as="r" hint-placeholder-count="3">
+<div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:11px 16px;border-top:1px solid var(--line)">
+<span style="width:30px;height:16px;border-radius:9px;background:{{r.track}};position:relative"><span style="position:absolute;top:2px;left:{{r.knob}};width:12px;height:12px;border-radius:50%;background:#e8ebf1"></span></span>
+<div style="flex:1 1 260px"><div style="font-weight:500">{{r.name}}</div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--mut)">{{r.cond}}</div></div>
+<button style="background:transparent;border:1px solid var(--line2);color:var(--tx);border-radius:6px;padding:3px 10px;cursor:pointer">Edit</button>
+</div>
+</sc-for>
+</div>
+</section>
+
+<aside style="flex:1 1 360px;min-width:0;background:var(--s1);border:1px solid var(--line);border-radius:8px">
+<div style="padding:12px 16px;border-bottom:1px solid var(--line)"><div style="font-size:11px;color:var(--dim)">Incident</div><div style="font-weight:600;margin:2px 0">p95 latency &gt; 400 ms on POST /api/orders</div><span style="font-size:11px;font-family:'JetBrains Mono',monospace;padding:2px 8px;border-radius:4px;color:#ff9aa3;background:#3a1f25">FIRING</span></div>
+<div style="padding:12px 16px;border-bottom:1px solid var(--line)"><div style="color:var(--dim);font-size:11px;margin-bottom:6px">Evidence</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div><div style="font-size:11px;color:var(--dim)">Observed p95</div><div style="font-size:20px;font-weight:600;color:var(--err)">612 ms</div></div><div><div style="font-size:11px;color:var(--dim)">Threshold</div><div style="font-size:20px;font-weight:600">400 ms</div></div></div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--mut);margin-top:8px">window 5 min · 1,904 requests · 14:27–14:32 UTC</div>
+<div style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:12px"><span style="color:var(--acc)">4bf92f35</span> 3.21 s &nbsp; <span style="color:var(--acc)">7d20be44</span> 1.96 s</div></div>
+<div style="padding:12px 16px;border-bottom:1px solid var(--line)"><div style="color:var(--dim);font-size:11px;margin-bottom:8px">Timeline</div>
+<sc-for list="{{timeline}}" as="t" hint-placeholder-count="2">
+<div style="display:grid;grid-template-columns:72px 1fr;gap:10px;padding:3px 0;font-size:12.5px"><span style="font-family:'JetBrains Mono',monospace;color:var(--dim)">{{t.at}}</span><span>{{t.text}}</span></div>
+</sc-for></div>
+<div style="padding:12px 16px;display:flex;gap:8px"><button style="flex:1;background:transparent;border:1px solid var(--line2);color:var(--tx);border-radius:6px;padding:7px;cursor:pointer">Acknowledge</button><button style="flex:1;background:transparent;border:1px solid var(--line2);color:var(--tx);border-radius:6px;padding:7px;cursor:pointer">Resolve</button></div>
+</aside>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const nav = [
+      ['Overview', 'M3 3h7v9H3zM14 3h7v5h-7zM14 12h7v9h-7zM3 16h7v5H3z'],
+      ['Endpoints', 'M4 6h16M4 12h16M4 18h10'],
+      ['Traces', 'M3 5h10M7 12h12M11 19h10'],
+      ['Errors', 'M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z'],
+      ['Alerts', 'M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0', 1],
+      ['Settings', 'M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6']
+    ].map((n) => ({ label: n[0], d: n[1], color: n[2] ? '#e8ebf1' : '#9aa3b4', bg: n[2] ? '#1b2030' : 'transparent' }));
+    const st = { FIRING: ['#ff9aa3', '#3a1f25'], ACKNOWLEDGED: ['#f5c565', '#2a2110'], RESOLVED: ['#7be8b5', '#12271d'] };
+    const incidents = [
+      ['FIRING', 'p95 latency > 400 ms on POST /api/orders', 'Rule: Slow checkout · observed 612 ms', 'opened 6m ago'],
+      ['ACKNOWLEDGED', 'Error rate > 5% on GET /api/inventory/:id', 'Rule: Inventory errors · acknowledged by marina', 'opened 41m ago'],
+      ['RESOLVED', 'Error rate > 5% on POST /api/orders', 'Rule: Checkout errors · auto-resolved', 'lasted 12m']
+    ].map((r) => ({ state: r[0], title: r[1], sub: r[2], when: r[3], fg: st[r[0]][0], bg: st[r[0]][1] }));
+    const rules = [
+      ['Slow checkout', 'p95 latency > 400 ms · 5 min · POST /api/orders', 1],
+      ['Checkout errors', 'error rate > 5% · 5 min · min 50 requests', 1],
+      ['Traffic drop', 'request rate < 100 / min · 10 min', 0]
+    ].map((r) => ({ name: r[0], cond: r[1], track: r[2] ? '#4a63c9' : '#2c3340', knob: r[2] ? '15px' : '3px' }));
+    const timeline = [
+      { at: '14:26:15', text: 'Opened — p95 612 ms exceeds 400 ms' },
+      { at: '14:26:30', text: 'Evidence refreshed — peak 1.9 s' }
+    ];
+    return { nav, incidents, rules, timeline };
+  }
+}
+</script>
+</body>
+</html>

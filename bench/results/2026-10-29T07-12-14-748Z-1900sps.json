@@ -1,0 +1,93 @@
+{
+  "generatedAt": "2026-10-29T07:12:14.744Z",
+  "environment": {
+    "os": "win32 10.0.26300",
+    "cpu": "11th Gen Intel(R) Core(TM) i7-11800H @ 2.30GHz",
+    "logicalCores": 16,
+    "memoryGiB": 32
+  },
+  "config": {
+    "targetSpansPerSecond": 1900,
+    "durationSeconds": 30,
+    "concurrency": 32,
+    "spansPerRequest": 50,
+    "extraPayloadBytesPerSpan": 299,
+    "ingestEnvironment": "load-8f1eae"
+  },
+  "ingestion": {
+    "sendSeconds": 30,
+    "requests": 1141,
+    "skippedByGenerator": 0,
+    "statusCounts": {
+      "200": 1141
+    },
+    "acceptedSpans": 57050,
+    "achievedSpansPerSecond": 1900,
+    "responseLatencyMs": {
+      "count": 1141,
+      "p50": 8.22,
+      "p95": 11.31,
+      "p99": 14.16,
+      "max": 38.88
+    }
+  },
+  "endToEnd": {
+    "markerVisibilityDelayMs": {
+      "count": 29,
+      "p50": 487,
+      "p95": 790,
+      "p99": 923,
+      "max": 923
+    },
+    "markersSent": 29,
+    "timeToFullyDrainedAfterLoadEndMs": 791,
+    "spansAccepted": 57050,
+    "requestsStoredAndCounted": 57050
+  },
+  "pipeline": {
+    "consumerLagAtLoadEnd": 331,
+    "consumerLagAfterDrain": 0,
+    "batchFailuresDuringRun": 0,
+    "deadLettersDuringRun": 0
+  },
+  "resources": {
+    "apiCpuSeconds": 8.56,
+    "workerCpuSecondsLoadAndDrain": 6.3,
+    "apiRssMiB": 138,
+    "workerRssMiB": 134
+  },
+  "dashboardQueryLatencyMs": {
+    "overview": {
+      "count": 20,
+      "p50": 304.45,
+      "p95": 345.94,
+      "p99": 384.21,
+      "max": 384.21
+    },
+    "endpoints": {
+      "count": 20,
+      "p50": 62.5,
+      "p95": 68.72,
+      "p99": 70.06,
+      "max": 70.06
+    },
+    "traces": {
+      "count": 20,
+      "p50": 221.86,
+      "p95": 276.71,
+      "p99": 338.25,
+      "max": 338.25
+    },
+    "errors": {
+      "count": 20,
+      "p50": 45.58,
+      "p95": 48.5,
+      "p99": 49.56,
+      "max": 49.56
+    }
+  },
+  "notes": [
+    "The load generator, API, worker, web app and all infrastructure share one machine, so CPU is contended and numbers understate dedicated hardware.",
+    "Dashboard query latency is measured after the run against all data in the demo project, sequentially and warm."
+  ]
+}

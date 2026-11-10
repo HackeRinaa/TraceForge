@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>TraceForge Foundations</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+<style>body{margin:0;background:#0b0d11}</style>
+</helmet>
+<div style="width:1440px;height:900px;box-sizing:border-box;padding:48px;background:#0b0d11;color:#e8ebf1;font-family:Inter,system-ui,sans-serif;font-size:13px;line-height:1.45;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px;align-content:start">
+
+<section style="display:flex;flex-direction:column;gap:14px">
+<h2 style="margin:0;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#6f7889;font-weight:500">Surfaces and text</h2>
+<sc-for list="{{surfaces}}" as="s" hint-placeholder-count="8">
+<div style="display:flex;align-items:center;gap:12px"><span style="width:44px;height:30px;border-radius:5px;background:{{s.hex}};border:1px solid #2c3340"></span><span style="font-family:'JetBrains Mono',monospace;width:90px">{{s.name}}</span><span style="font-family:'JetBrains Mono',monospace;color:#9aa3b4">{{s.hex}}</span><span style="color:#6f7889">{{s.use}}</span></div>
+</sc-for>
+<h2 style="margin:14px 0 0;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#6f7889;font-weight:500">Status</h2>
+<sc-for list="{{status}}" as="s" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;gap:12px"><span style="width:44px;height:30px;border-radius:5px;background:{{s.hex}}"></span><span style="font-family:'JetBrains Mono',monospace;width:90px">{{s.name}}</span><span style="font-family:'JetBrains Mono',monospace;color:#9aa3b4">{{s.hex}}</span><span style="color:#6f7889">{{s.use}}</span></div>
+</sc-for>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:14px">
+<h2 style="margin:0;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#6f7889;font-weight:500">Chart series (distinct in lightness, not hue alone)</h2>
+<div style="display:flex;gap:8px"><sc-for list="{{series}}" as="c" hint-placeholder-count="6"><span style="flex:1;height:44px;border-radius:5px;background:{{c.hex}};display:grid;place-items:end start;padding:4px 6px;font-family:'JetBrains Mono',monospace;font-size:10px;color:#0b0d11">{{c.name}}</span></sc-for></div>
+<h2 style="margin:14px 0 0;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#6f7889;font-weight:500">Typography</h2>
+<div style="font-size:20px;font-weight:600;letter-spacing:-0.01em">Page title · Inter 600 / 20</div>
+<div style="font-size:13px;font-weight:600">Panel heading · Inter 600 / 13</div>
+<div style="color:#9aa3b4">Body and secondary text · Inter 400 / 13</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:12px">4bf92f3577b34da6 · POST /api/orders · 3.21 s</div>
+<div style="font-size:24px;font-weight:600;letter-spacing:-0.02em;font-variant-numeric:tabular-nums">1,842 <span style="font-size:13px;color:#6f7889;font-weight:400">req/min</span></div>
+<h2 style="margin:14px 0 0;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#6f7889;font-weight:500">Spacing, radius, motion</h2>
+<div style="color:#9aa3b4">4 px base grid · panels 12–16 px padding · 6 px control radius, 8 px panel radius · borders 1 px at low contrast, no shadows on panels · motion only on live-update flashes (150 ms), disabled under reduced motion.</div>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:14px">
+<h2 style="margin:0;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#6f7889;font-weight:500">Controls and states</h2>
+<div style="display:flex;flex-wrap:wrap;gap:8px"><button style="background:#6b8cff;color:#0b0d11;border:0;border-radius:6px;padding:7px 14px;font-weight:600">Primary</button><button style="background:transparent;color:#e8ebf1;border:1px solid #2c3340;border-radius:6px;padding:7px 14px">Secondary</button><button style="background:transparent;color:#f26b76;border:1px solid #4a2229;border-radius:6px;padding:7px 14px">Destructive</button></div>
+<label style="display:flex;flex-direction:column;gap:4px;color:#9aa3b4">Input<span style="background:#12151b;border:1px solid #6b8cff;box-shadow:0 0 0 2px #6b8cff33;border-radius:6px;padding:7px 10px;color:#e8ebf1">focused state</span></label>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><span style="font-size:11px;font-family:'JetBrains Mono',monospace;padding:2px 8px;border-radius:4px;color:#7be8b5;background:#12271d">OK</span><span style="font-size:11px;font-family:'JetBrains Mono',monospace;padding:2px 8px;border-radius:4px;color:#f5c565;background:#2a2110">WARN</span><span style="font-size:11px;font-family:'JetBrains Mono',monospace;padding:2px 8px;border-radius:4px;color:#ff9aa3;background:#3a1f25">ERROR</span></div>
+<h2 style="margin:14px 0 0;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#6f7889;font-weight:500">Loading, empty, error</h2>
+<div style="background:#12151b;border:1px solid #222733;border-radius:8px;padding:14px;display:flex;flex-direction:column;gap:8px"><span style="height:10px;width:60%;background:#1b2030;border-radius:3px"></span><span style="height:10px;width:85%;background:#1b2030;border-radius:3px"></span><span style="height:10px;width:40%;background:#1b2030;border-radius:3px"></span></div>
+<div style="background:#12151b;border:1px dashed #2c3340;border-radius:8px;padding:16px"><div style="font-weight:600">No telemetry yet</div><div style="color:#9aa3b4;margin-top:2px">Point an OpenTelemetry exporter at this project, or run the bundled demo traffic.</div></div>
+<div style="background:#1d1215;border:1px solid #4a2229;border-radius:8px;padding:16px"><div style="font-weight:600;color:#ff9aa3">Query failed</div><div style="color:#c98089;margin-top:2px">ClickHouse did not respond within 10 s. Request ID 6f2a… <u>Retry</u></div></div>
+<h2 style="margin:14px 0 0;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#6f7889;font-weight:500">Responsive</h2>
+<div style="color:#9aa3b4">Below 960 px the sidebar collapses to a top drawer; tables scroll horizontally inside their panel; KPI and chart grids reflow with auto-fit tracks.</div>
+</section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      surfaces: [
+        { name: 'bg', hex: '#0b0d11', use: 'app background' }, { name: 'sidebar', hex: '#0e1116', use: 'navigation' },
+        { name: 'surface-1', hex: '#12151b', use: 'panels' }, { name: 'surface-2', hex: '#171b23', use: 'raised / tooltips' },
+        { name: 'line', hex: '#222733', use: 'separators' }, { name: 'text', hex: '#e8ebf1', use: 'primary text' },
+        { name: 'muted', hex: '#9aa3b4', use: 'secondary text' }, { name: 'dim', hex: '#6f7889', use: 'labels (large/icon only)' }
+      ],
+      status: [
+        { name: 'accent', hex: '#6b8cff', use: 'primary, links, selection' }, { name: 'success', hex: '#3ddc97', use: 'OK, healthy' },
+        { name: 'warning', hex: '#f5a524', use: 'degraded, p95' }, { name: 'error', hex: '#f26b76', use: 'errors, firing' }
+      ],
+      series: [
+        { name: 'blue', hex: '#6b8cff' }, { name: 'amber', hex: '#f5a524' }, { name: 'violet', hex: '#c084fc' },
+        { name: 'teal', hex: '#2ec4b6' }, { name: 'pink', hex: '#f472b6' }, { name: 'sand', hex: '#d6c28f' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

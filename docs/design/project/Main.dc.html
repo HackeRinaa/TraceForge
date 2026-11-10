@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>TraceForge Overview</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0;background:#0b0d11}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="--bg:#0b0d11;--side:#0e1116;--s1:#12151b;--s2:#171b23;--line:#222733;--line2:#2c3340;--tx:#e8ebf1;--mut:#9aa3b4;--dim:#6f7889;--acc:#6b8cff;--ok:#3ddc97;--warn:#f5a524;--err:#f26b76;display:flex;flex-wrap:wrap;min-height:1180px;background:var(--bg);color:var(--tx);font-family:Inter,system-ui,sans-serif;font-size:13px;line-height:1.45">
+
+<!-- Sidebar -->
+<aside style="flex:0 0 232px;background:var(--side);border-right:1px solid var(--line);padding:14px 12px;box-sizing:border-box;display:flex;flex-direction:column;gap:18px">
+<div style="display:flex;align-items:center;gap:10px;padding:2px 6px">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6b8cff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h9M8 12h12M12 19h8"/><circle cx="4" cy="5" r="1.4" fill="#6b8cff"/></svg>
+<span style="font-weight:600;font-size:15px;letter-spacing:-0.01em">TraceForge</span>
+</div>
+<button style="display:flex;align-items:center;gap:8px;background:var(--s1);border:1px solid var(--line);color:var(--tx);border-radius:6px;padding:7px 9px;text-align:left;cursor:pointer">
+<span style="width:20px;height:20px;border-radius:4px;background:#26304f;color:#aebdff;display:grid;place-items:center;font-size:11px;font-weight:600">A</span>
+<span style="flex:1"><span style="display:block;font-weight:500">Acme Corp</span><span style="display:block;font-size:11px;color:var(--dim)">checkout-api</span></span>
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6f7889" stroke-width="2" aria-hidden="true"><path d="m7 15 5 5 5-5M7 9l5-5 5 5"/></svg>
+</button>
+<nav aria-label="Project" style="display:flex;flex-direction:column;gap:2px">
+<sc-for list="{{nav}}" as="n" hint-placeholder-count="6">
+<a href="#" style="display:flex;align-items:center;gap:10px;padding:7px 9px;border-radius:6px;text-decoration:none;color:{{n.color}};background:{{n.bg}};font-weight:{{n.weight}}">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{n.d}}"/></svg>
+<span style="flex:1">{{n.label}}</span>
+<sc-if value="{{n.badge}}" hint-placeholder-val="{{false}}"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;background:#3a1f25;color:#ff9aa3;padding:0 6px;border-radius:9px">{{n.badge}}</span></sc-if>
+</a>
+</sc-for>
+</nav>
+<div style="margin-top:auto;border-top:1px solid var(--line);padding-top:12px;display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--mut)">
+<div style="display:flex;align-items:center;gap:8px"><span style="width:7px;height:7px;border-radius:50%;background:var(--ok)"></span>Pipeline healthy</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--dim)">consumer lag 0.4s · 1.8k spans/s</div>
+</div>
+</aside>
+
+<!-- Main -->
+<div style="flex:999 1 560px;min-width:0;display:flex;flex-direction:column">
+<header style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 24px;border-bottom:1px solid var(--line);background:var(--bg)">
+<button style="display:flex;align-items:center;gap:6px;background:var(--s1);border:1px solid var(--line);color:var(--tx);border-radius:6px;padding:6px 10px;cursor:pointer"><span style="width:7px;height:7px;border-radius:2px;background:var(--ok)"></span>production<span style="color:var(--dim)">▾</span></button>
+<div role="group" aria-label="Time range" style="display:flex;border:1px solid var(--line);border-radius:6px;overflow:hidden">
+<sc-for list="{{ranges}}" as="r" hint-placeholder-count="5">
+<button style="border:0;border-right:1px solid var(--line);padding:6px 11px;background:{{r.bg}};color:{{r.color}};cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:12px">{{r.label}}</button>
+</sc-for>
+</div>
+<div style="flex:1 1 200px"></div>
+<label style="display:flex;align-items:center;gap:8px;background:var(--s1);border:1px solid var(--line);border-radius:6px;padding:6px 10px;color:var(--dim);min-width:240px">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+<span style="flex:1">Jump to trace, endpoint…</span><kbd style="font-family:'JetBrains Mono',monospace;font-size:11px;border:1px solid var(--line2);border-radius:4px;padding:0 5px">⌘K</kbd>
+</label>
+<button aria-label="Incidents, 1 active" style="position:relative;background:var(--s1);border:1px solid var(--line);border-radius:6px;width:32px;height:32px;color:var(--mut);display:grid;place-items:center;cursor:pointer"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg><span style="position:absolute;top:5px;right:6px;width:7px;height:7px;border-radius:50%;background:var(--err)"></span></button>
+<span style="width:28px;height:28px;border-radius:50%;background:#26304f;color:#aebdff;display:grid;place-items:center;font-size:11px;font-weight:600">MP</span>
+</header>
+
+<main style="padding:20px 24px 32px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px">
+<div style="flex:1 1 300px"><h1 style="margin:0;font-size:20px;font-weight:600;letter-spacing:-0.01em">Overview</h1><p style="margin:2px 0 0;color:var(--mut)">checkout-api · production · last 1 hour</p></div>
+<span style="display:flex;align-items:center;gap:6px;color:var(--mut);font-size:12px"><span style="width:7px;height:7px;border-radius:50%;background:var(--ok)"></span>Live · updated 2s ago</span>
+<span style="font-size:11px;border:1px solid #4a3a14;color:#f5c565;background:#2a2110;border-radius:4px;padding:2px 7px;font-family:'JetBrains Mono',monospace">DEMO TRAFFIC</span>
+</div>
+
+<!-- KPIs -->
+<section aria-label="Key metrics" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+<sc-for list="{{kpis}}" as="k" hint-placeholder-count="5">
+<div style="background:var(--s1);border:1px solid var(--line);border-radius:8px;padding:12px 14px;display:flex;flex-direction:column;gap:6px">
+<div style="display:flex;justify-content:space-between;color:var(--mut);font-size:12px"><span>{{k.label}}</span><span style="font-family:'JetBrains Mono',monospace;color:{{k.dcolor}}">{{k.delta}}</span></div>
+<div style="font-size:24px;font-weight:600;letter-spacing:-0.02em;font-variant-numeric:tabular-nums">{{k.value}}<span style="font-size:13px;color:var(--dim);font-weight:400;margin-left:3px">{{k.unit}}</span></div>
+<svg viewBox="0 0 120 28" preserveAspectRatio="none" width="100%" height="28" aria-hidden="true"><path d="{{k.line}}" fill="none" stroke="{{k.stroke}}" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg>
+</div>
+</sc-for>
+</section>
+
+<!-- Charts -->
+<section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:12px">
+<div style="background:var(--s1);border:1px solid var(--line);border-radius:8px;padding:14px 16px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px"><h2 style="margin:0;font-size:13px;font-weight:600">Throughput</h2><span style="color:var(--dim);font-size:12px">requests / min</span></div>
+<div style="position:relative;height:190px;border-left:1px solid var(--line2);border-bottom:1px solid var(--line2)">
+<svg viewBox="0 0 600 190" preserveAspectRatio="none" width="100%" height="190" role="img" aria-label="Requests per minute over the last hour"><g stroke="#222733" stroke-width="1" vector-effect="non-scaling-stroke"><path d="M0 47H600M0 95H600M0 142H600"/></g><path d="{{thr.area}}" fill="#6b8cff" fill-opacity="0.16"/><path d="{{thr.line}}" fill="none" stroke="#6b8cff" stroke-width="1.75" vector-effect="non-scaling-stroke"/><path d="M372 0V190" stroke="#4a5368" stroke-dasharray="3 3" vector-effect="non-scaling-stroke"/></svg>
+<span style="position:absolute;left:6px;top:2px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--dim)">2.4k</span>
+<span style="position:absolute;left:6px;top:88px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--dim)">1.2k</span>
+<span style="position:absolute;left:62%;top:6px;transform:translateX(8px);background:var(--s2);border:1px solid var(--line2);border-radius:6px;padding:5px 8px;font-size:12px;white-space:nowrap"><span style="font-family:'JetBrains Mono',monospace;color:var(--mut)">14:32:00</span><br><b style="font-weight:600">1,914</b> req/min</span>
+</div>
+<div style="display:flex;justify-content:space-between;color:var(--dim);font-family:'JetBrains Mono',monospace;font-size:11px;padding-top:4px"><span>13:45</span><span>14:00</span><span>14:15</span><span>14:30</span><span>14:45</span></div>
+</div>
+
+<div style="background:var(--s1);border:1px solid var(--line);border-radius:8px;padding:14px 16px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px"><h2 style="margin:0;font-size:13px;font-weight:600">Latency</h2>
+<span style="display:flex;gap:12px;font-size:12px;color:var(--mut)"><span><i style="display:inline-block;width:8px;height:2px;background:#6b8cff;vertical-align:middle;margin-right:5px"></i>p50</span><span><i style="display:inline-block;width:8px;height:2px;background:#f5a524;vertical-align:middle;margin-right:5px"></i>p95</span><span><i style="display:inline-block;width:8px;height:2px;background:#c084fc;vertical-align:middle;margin-right:5px"></i>p99</span></span></div>
+<div style="position:relative;height:190px;border-left:1px solid var(--line2);border-bottom:1px solid var(--line2)">
+<svg viewBox="0 0 600 190" preserveAspectRatio="none" width="100%" height="190" role="img" aria-label="p50, p95 and p99 latency over the last hour"><g stroke="#222733" stroke-width="1" vector-effect="non-scaling-stroke"><path d="M0 47H600M0 95H600M0 142H600"/></g><path d="{{lat.p99}}" fill="none" stroke="#c084fc" stroke-width="1.5" vector-effect="non-scaling-stroke"/><path d="{{lat.p95}}" fill="none" stroke="#f5a524" stroke-width="1.5" vector-effect="non-scaling-stroke"/><path d="{{lat.p50}}" fill="none" stroke="#6b8cff" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg>
+<span style="position:absolute;left:6px;top:2px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--dim)">2 s</span>
+<span style="position:absolute;left:6px;top:88px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--dim)">1 s</span>
+</div>
+<div style="display:flex;justify-content:space-between;color:var(--dim);font-family:'JetBrains Mono',monospace;font-size:11px;padding-top:4px"><span>13:45</span><span>14:00</span><span>14:15</span><span>14:30</span><span>14:45</span></div>
+</div>
+</section>
+
+<!-- Tables -->
+<section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:12px">
+<div style="background:var(--s1);border:1px solid var(--line);border-radius:8px;min-width:0">
+<div style="display:flex;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--line)"><h2 style="margin:0;font-size:13px;font-weight:600">Slowest endpoints</h2><a href="Endpoints.dc.html" style="color:var(--acc);text-decoration:none;font-size:12px">All endpoints →</a></div>
+<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12.5px;min-width:520px">
+<thead><tr style="color:var(--dim);text-align:right;font-weight:500"><th style="text-align:left;padding:8px 16px;font-weight:500">Endpoint</th><th style="padding:8px 8px;font-weight:500">Req</th><th style="padding:8px 8px;font-weight:500">Err %</th><th style="padding:8px 8px;font-weight:500">p95</th><th style="padding:8px 16px;font-weight:500">p99</th></tr></thead>
+<tbody>
+<sc-for list="{{endpoints}}" as="e" hint-placeholder-count="5">
+<tr style="border-top:1px solid var(--line);text-align:right;font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums">
+<td style="text-align:left;padding:8px 16px"><span style="color:{{e.mc}};margin-right:8px">{{e.method}}</span><span style="color:var(--tx)">{{e.route}}</span></td>
+<td style="padding:8px 8px;color:var(--mut)">{{e.req}}</td><td style="padding:8px 8px;color:{{e.ec}}">{{e.err}}</td><td style="padding:8px 8px">{{e.p95}}</td><td style="padding:8px 16px;color:var(--mut)">{{e.p99}}</td>
+</tr>
+</sc-for>
+</tbody></table></div>
+</div>
+
+<div style="background:var(--s1);border:1px solid var(--line);border-radius:8px;min-width:0">
+<div style="display:flex;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--line)"><h2 style="margin:0;font-size:13px;font-weight:600">Recent traces</h2><a href="Trace.dc.html" style="color:var(--acc);text-decoration:none;font-size:12px">Open explorer →</a></div>
+<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12.5px;min-width:520px">
+<tbody>
+<sc-for list="{{traces}}" as="t" hint-placeholder-count="5">
+<tr style="border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace">
+<td style="padding:8px 16px;color:var(--acc)">{{t.id}}</td><td style="padding:8px 8px"><span style="color:{{t.mc}}">{{t.method}}</span> {{t.route}}</td>
+<td style="padding:8px 8px;text-align:right;font-variant-numeric:tabular-nums">{{t.dur}}</td>
+<td style="padding:8px 16px;text-align:right"><span style="color:{{t.sc}}">{{t.status}}</span></td>
+</tr>
+</sc-for>
+</tbody></table></div>
+</div>
+</section>
+
+<!-- Service health + incidents -->
+<section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:12px">
+<div style="background:var(--s1);border:1px solid var(--line);border-radius:8px;padding:12px 16px;min-width:0">
+<h2 style="margin:0 0 10px;font-size:13px;font-weight:600">Service latency contribution</h2>
+<sc-for list="{{services}}" as="s" hint-placeholder-count="4">
+<div style="display:grid;grid-template-columns:130px 1fr 64px;align-items:center;gap:12px;padding:5px 0">
+<span style="font-family:'JetBrains Mono',monospace;font-size:12px">{{s.name}}</span>
+<span style="height:8px;background:var(--s2);border-radius:2px;overflow:hidden"><span style="display:block;height:100%;width:{{s.pct}};background:{{s.color}}"></span></span>
+<span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--mut);text-align:right">{{s.share}}</span>
+</div>
+</sc-for>
+</div>
+<div style="background:var(--s1);border:1px solid var(--line);border-radius:8px;padding:12px 16px;min-width:0">
+<h2 style="margin:0 0 10px;font-size:13px;font-weight:600">Active incidents</h2>
+<div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;border:1px solid #4a2229;background:#1d1215;border-radius:6px">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f26b76" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-top:2px"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+<div style="flex:1"><div style="font-weight:500">p95 latency &gt; 400 ms on POST /api/orders</div><div style="color:var(--mut);font-size:12px;margin-top:2px">Firing for 6 min · observed 612 ms over 5 min window</div></div>
+<button style="background:transparent;border:1px solid var(--line2);color:var(--tx);border-radius:6px;padding:4px 10px;cursor:pointer">Acknowledge</button>
+</div>
+</div>
+</section>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1180}}'>
+class Component extends DCLogic {
+  series(n, base, amp, seed) {
+    const out = [];
+    for (let i = 0; i < n; i++) {
+      const v = base + amp * (Math.sin(i * 0.45 + seed) * 0.5 + Math.sin(i * 1.3 + seed * 2) * 0.25 + Math.sin(i * 0.11 + seed) * 0.6);
+      out.push(Math.max(0.02, v));
+    }
+    return out;
+  }
+  path(vals, w, h, max, close) {
+    const step = w / (vals.length - 1);
+    let d = vals.map((v, i) => (i ? 'L' : 'M') + (i * step).toFixed(1) + ' ' + (h - (v / max) * h).toFixed(1)).join(' ');
+    if (close) d += ' L' + w + ' ' + h + ' L0 ' + h + ' Z';
+    return d;
+  }
+  renderVals() {
+    const nav = [
+      ['Overview', 'M3 3h7v9H3zM14 3h7v5h-7zM14 12h7v9h-7zM3 16h7v5H3z', 1],
+      ['Endpoints', 'M4 6h16M4 12h16M4 18h10', 0],
+      ['Traces', 'M3 5h10M7 12h12M11 19h10', 0],
+      ['Errors', 'M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z', 0],
+      ['Alerts', 'M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0', 0, '1'],
+      ['Settings', 'M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6', 0]
+    ].map((n) => ({ label: n[0], d: n[1], badge: n[3] || '', color: n[2] ? '#e8ebf1' : '#9aa3b4', bg: n[2] ? '#1b2030' : 'transparent', weight: n[2] ? 500 : 400 }));
+    const ranges = ['15m', '1h', '6h', '24h', '7d'].map((l) => ({ label: l, bg: l === '1h' ? '#1b2030' : 'transparent', color: l === '1h' ? '#e8ebf1' : '#9aa3b4' }));
+    const sp = (base, amp, seed, max) => this.path(this.series(24, base, amp, seed), 120, 28, max);
+    const kpis = [
+      { label: 'Requests / min', value: '1,842', unit: '', delta: '+8.2%', dcolor: '#9aa3b4', line: sp(1.2, 0.5, 1, 2.2), stroke: '#6b8cff' },
+      { label: 'Error rate', value: '1.42', unit: '%', delta: '+0.9 pp', dcolor: '#f26b76', line: sp(0.4, 0.35, 4, 1.4), stroke: '#f26b76' },
+      { label: 'p50 latency', value: '38', unit: 'ms', delta: '−2%', dcolor: '#3ddc97', line: sp(1.0, 0.25, 2, 1.6), stroke: '#6b8cff' },
+      { label: 'p95 latency', value: '412', unit: 'ms', delta: '+31%', dcolor: '#f5a524', line: sp(1.0, 0.5, 3, 2.0), stroke: '#f5a524' },
+      { label: 'p99 latency', value: '1.21', unit: 's', delta: '+44%', dcolor: '#f5a524', line: sp(1.0, 0.7, 5, 2.4), stroke: '#c084fc' }
+    ];
+    const t = this.series(60, 1.2, 0.45, 1);
+    const thr = { line: this.path(t, 600, 190, 2.4), area: this.path(t, 600, 190, 2.4, true) };
+    const lat = {
+      p50: this.path(this.series(60, 0.1, 0.03, 2), 600, 190, 2.0),
+      p95: this.path(this.series(60, 0.42, 0.18, 3), 600, 190, 2.0),
+      p99: this.path(this.series(60, 0.9, 0.45, 5), 600, 190, 2.0)
+    };
+    const m = (x) => (x === 'GET' ? '#6b8cff' : '#3ddc97');
+    const eps = [
+      ['POST', '/api/orders', '9,812', '4.8%', '1.84 s', '3.20 s'],
+      ['GET', '/api/inventory/:id', '21,044', '0.3%', '640 ms', '1.10 s'],
+      ['GET', '/api/orders/:id', '12,310', '0.1%', '210 ms', '388 ms'],
+      ['GET', '/api/products/:id', '40,128', '0.0%', '96 ms', '170 ms'],
+      ['GET', '/api/products', '58,402', '0.0%', '71 ms', '122 ms']
+    ].map((r) => ({ method: r[0], route: r[1], req: r[2], err: r[3], p95: r[4], p99: r[5], mc: m(r[0]), ec: parseFloat(r[3]) > 1 ? '#f26b76' : '#9aa3b4' }));
+    const traces = [
+      ['4bf92f35', 'POST', '/api/orders', '3.21 s', 'ERROR'],
+      ['a31c09de', 'GET', '/api/inventory/:id', '702 ms', 'OK'],
+      ['7d20be44', 'POST', '/api/orders', '1.96 s', 'OK'],
+      ['0c9ea117', 'GET', '/api/products', '64 ms', 'OK'],
+      ['e5b7f230', 'GET', '/api/orders/:id', '231 ms', 'OK']
+    ].map((r) => ({ id: r[0], method: r[1], route: r[2], dur: r[3], status: r[4], mc: m(r[1]), sc: r[4] === 'OK' ? '#3ddc97' : '#f26b76' }));
+    const services = [
+      { name: 'payments-svc', pct: '62%', share: '62%', color: '#f5a524' },
+      { name: 'inventory-svc', pct: '21%', share: '21%', color: '#6b8cff' },
+      { name: 'postgres', pct: '11%', share: '11%', color: '#2ec4b6' },
+      { name: 'checkout-api', pct: '6%', share: '6%', color: '#c084fc' }
+    ];
+    return { nav, ranges, kpis, thr, lat, endpoints: eps, traces, services };
+  }
+}
+</script>
+</body>
+</html>

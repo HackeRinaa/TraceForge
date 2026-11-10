@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.next/
+coverage/
+playwright-report/
+test-results/
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
+.DS_Store
+.vscode/
+bench/results/*.local.json
+
+# Written by `next dev` for coding agents; not part of the project
+apps/web/AGENTS.md

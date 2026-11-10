@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>TraceForge Endpoints</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+<style>body{margin:0;background:#0b0d11}button{font-family:inherit}</style>
+</helmet>
+<div style="--bg:#0b0d11;--side:#0e1116;--s1:#12151b;--s2:#171b23;--line:#222733;--line2:#2c3340;--tx:#e8ebf1;--mut:#9aa3b4;--dim:#6f7889;--acc:#6b8cff;--ok:#3ddc97;--warn:#f5a524;--err:#f26b76;display:flex;flex-wrap:wrap;min-height:940px;background:var(--bg);color:var(--tx);font-family:Inter,system-ui,sans-serif;font-size:13px;line-height:1.45">
+
+<aside style="flex:0 0 232px;background:var(--side);border-right:1px solid var(--line);padding:14px 12px;box-sizing:border-box;display:flex;flex-direction:column;gap:6px">
+<div style="display:flex;align-items:center;gap:10px;padding:2px 6px 14px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6b8cff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h9M8 12h12M12 19h8"/><circle cx="4" cy="5" r="1.4" fill="#6b8cff"/></svg><span style="font-weight:600;font-size:15px">TraceForge</span></div>
+<sc-for list="{{nav}}" as="n" hint-placeholder-count="6">
+<a href="Main.dc.html" style="display:flex;align-items:center;gap:10px;padding:7px 9px;border-radius:6px;text-decoration:none;color:{{n.color}};background:{{n.bg}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{n.d}}"/></svg>{{n.label}}</a>
+</sc-for>
+</aside>
+
+<div style="flex:999 1 560px;min-width:0;padding:20px 24px 32px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px">
+<div style="flex:1 1 300px"><h1 style="margin:0;font-size:20px;font-weight:600">Endpoints</h1><p style="margin:2px 0 0;color:var(--mut)">Normalized routes · production · last 1 hour</p></div>
+<label style="display:flex;align-items:center;gap:8px;background:var(--s1);border:1px solid var(--line);border-radius:6px;padding:6px 10px;color:var(--dim);min-width:260px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>Filter routes…</span></label>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start">
+<section style="flex:999 1 560px;min-width:0;background:var(--s1);border:1px solid var(--line);border-radius:8px;overflow:hidden">
+<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;min-width:640px;font-size:12.5px">
+<thead><tr style="color:var(--dim);text-align:right">
+<th style="text-align:left;padding:9px 16px;font-weight:500">Endpoint</th><th style="padding:9px 8px;font-weight:500">Requests</th><th style="padding:9px 8px;font-weight:500">Errors</th><th style="padding:9px 8px;font-weight:500">Err %</th><th style="padding:9px 8px;font-weight:500">p50</th><th style="padding:9px 8px;font-weight:500;color:var(--tx)">p95 ↓</th><th style="padding:9px 16px;font-weight:500">p99</th></tr></thead>
+<tbody>
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="6">
+<tr style="border-top:1px solid var(--line);text-align:right;font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums;background:{{r.bg}}">
+<td style="text-align:left;padding:9px 16px"><span style="color:{{r.mc}};margin-right:8px">{{r.method}}</span>{{r.route}}</td>
+<td style="padding:9px 8px;color:var(--mut)">{{r.req}}</td><td style="padding:9px 8px;color:var(--mut)">{{r.errs}}</td><td style="padding:9px 8px;color:{{r.ec}}">{{r.rate}}</td><td style="padding:9px 8px;color:var(--mut)">{{r.p50}}</td><td style="padding:9px 8px">{{r.p95}}</td><td style="padding:9px 16px;color:var(--mut)">{{r.p99}}</td>
+</tr>
+</sc-for>
+</tbody></table></div>
+</section>
+
+<aside style="flex:1 1 360px;min-width:0;display:flex;flex-direction:column;gap:12px">
+<div style="background:var(--s1);border:1px solid var(--line);border-radius:8px;padding:14px 16px">
+<div style="font-family:'JetBrains Mono',monospace;font-weight:500"><span style="color:var(--ok)">POST</span> /api/orders</div>
+<div style="color:var(--mut);font-size:12px;margin:2px 0 10px">p95 latency · 1-minute buckets</div>
+<svg viewBox="0 0 400 130" preserveAspectRatio="none" width="100%" height="130" role="img" aria-label="p95 latency of POST /api/orders rising from 200 ms to 1.8 s"><g stroke="#222733" vector-effect="non-scaling-stroke"><path d="M0 32H400M0 65H400M0 98H400"/></g><path d="{{ep.area}}" fill="#f5a524" fill-opacity="0.14"/><path d="{{ep.line}}" fill="none" stroke="#f5a524" stroke-width="1.75" vector-effect="non-scaling-stroke"/></svg>
+<div style="display:flex;justify-content:space-between;color:var(--dim);font-family:'JetBrains Mono',monospace;font-size:11px;margin-top:4px"><span>13:45</span><span>14:05</span><span>14:25</span><span>14:45</span></div>
+</div>
+<div style="background:var(--s1);border:1px solid var(--line);border-radius:8px">
+<div style="padding:11px 16px;border-bottom:1px solid var(--line);font-weight:600">Slowest recent traces</div>
+<sc-for list="{{traces}}" as="t" hint-placeholder-count="4">
+<div style="display:flex;justify-content:space-between;padding:8px 16px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:12px"><span style="color:var(--acc)">{{t.id}}</span><span>{{t.dur}}</span><span style="color:{{t.c}}">{{t.status}}</span></div>
+</sc-for>
+</div>
+</aside>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":940}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const nav = [
+      ['Overview', 'M3 3h7v9H3zM14 3h7v5h-7zM14 12h7v9h-7zM3 16h7v5H3z'],
+      ['Endpoints', 'M4 6h16M4 12h16M4 18h10', 1],
+      ['Traces', 'M3 5h10M7 12h12M11 19h10'],
+      ['Errors', 'M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z'],
+      ['Alerts', 'M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0'],
+      ['Settings', 'M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6']
+    ].map((n) => ({ label: n[0], d: n[1], color: n[2] ? '#e8ebf1' : '#9aa3b4', bg: n[2] ? '#1b2030' : 'transparent' }));
+    const data = [
+      ['POST', '/api/orders', '9,812', '471', '4.8%', '210 ms', '1.84 s', '3.20 s', 1],
+      ['GET', '/api/inventory/:id', '21,044', '63', '0.3%', '180 ms', '640 ms', '1.10 s'],
+      ['GET', '/api/orders/:id', '12,310', '12', '0.1%', '54 ms', '210 ms', '388 ms'],
+      ['GET', '/api/products/:id', '40,128', '0', '0.0%', '32 ms', '96 ms', '170 ms'],
+      ['GET', '/api/products', '58,402', '0', '0.0%', '24 ms', '71 ms', '122 ms']
+    ];
+    const rows = data.map((r) => ({ method: r[0], route: r[1], req: r[2], errs: r[3], rate: r[4], p50: r[5], p95: r[6], p99: r[7], mc: r[0] === 'GET' ? '#6b8cff' : '#3ddc97', ec: parseFloat(r[4]) > 1 ? '#f26b76' : '#9aa3b4', bg: r[8] ? '#1b2030' : 'transparent' }));
+    const pts = [];
+    for (let i = 0; i < 40; i++) { const base = i < 18 ? 0.12 : 0.12 + (i - 18) * 0.037; pts.push(Math.min(0.97, base + Math.sin(i * 1.7) * 0.04)); }
+    const step = 400 / 39;
+    const line = pts.map((v, i) => (i ? 'L' : 'M') + (i * step).toFixed(1) + ' ' + (130 - v * 130).toFixed(1)).join(' ');
+    const traces = [['4bf92f35', '3.21 s', 'ERROR', '#f26b76'], ['7d20be44', '1.96 s', 'OK', '#3ddc97'], ['b82d19c0', '1.74 s', 'OK', '#3ddc97'], ['2e91a7fb', '1.70 s', 'ERROR', '#f26b76']].map((t) => ({ id: t[0], dur: t[1], status: t[2], c: t[3] }));
+    return { nav, rows, ep: { line, area: line + ' L400 130 L0 130 Z' }, traces };
+  }
+}
+</script>
+</body>
+</html>

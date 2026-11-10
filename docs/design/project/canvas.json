@@ -1,0 +1,19 @@
+{
+  "v": 3,
+  "createdOnFiles": { "v": 1, "at": "2026-10-27T13:30:00Z" },
+  "title": "TraceForge",
+  "launch": { "view": "canvas" },
+  "pages": [],
+  "boards": {
+    "Main.dc.html": { "x": 0, "y": 0, "w": 1440, "h": 1180, "title": "Overview", "expand": "fill", "is_interactive": false },
+    "Endpoints.dc.html": { "x": 1520, "y": 0, "w": 1440, "h": 940, "title": "Endpoints", "expand": "fill" },
+    "Trace.dc.html": { "x": 0, "y": 1300, "w": 1440, "h": 960, "title": "Trace detail", "expand": "fill" },
+    "Alerts.dc.html": { "x": 1520, "y": 1300, "w": 1440, "h": 900, "title": "Alerts and incidents", "expand": "fill" },
+    "Foundations.dc.html": { "x": 0, "y": 2580, "w": 1440, "h": 900, "title": "Foundations" }
+  },
+  "order": ["Main.dc.html", "Endpoints.dc.html", "Trace.dc.html", "Alerts.dc.html", "Foundations.dc.html"],
+  "notes": {
+    "t1": { "x": 0, "y": -240, "text": "TraceForge — dark developer workspace", "kind": "title1", "maxW": 2960 }
+  },
+  "designSystems": []
+}

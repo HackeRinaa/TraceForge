@@ -1,0 +1,108 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Local-development credentials from docker-compose.yml; the CI infrastructure is ephemeral.
+  CI_ENV_FILE: .env.example
+
+jobs:
+  check:
+    name: Lint, typecheck, unit tests, build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4 # version comes from "packageManager" in package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm format:check
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm build
+
+  audit:
+    name: Dependency audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm audit --prod --audit-level=high
+
+  integration:
+    name: Integration tests (Postgres, Kafka, ClickHouse)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: cp "$CI_ENV_FILE" .env
+      - run: docker compose up -d --wait
+      - run: pnpm db:migrate
+      - run: pnpm test:integration
+      - name: Show service logs on failure
+        if: failure()
+        run: docker compose logs --tail=200
+
+  e2e:
+    name: End-to-end (Playwright)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: cp "$CI_ENV_FILE" .env
+      # The compose file maps Postgres to host port 5433; .env.example already points there.
+      - run: docker compose up -d --wait
+      - run: pnpm db:migrate
+      - run: pnpm build
+      - name: Start API, worker and web
+        run: |
+          (cd apps/api && node dist/main.js > ../../api.log 2>&1 &)
+          (cd apps/worker && node dist/main.js > ../../worker.log 2>&1 &)
+          (cd apps/web && pnpm exec next start --port 3000 > ../../web.log 2>&1 &)
+          for i in $(seq 1 60); do
+            curl -sf http://localhost:4000/readyz && curl -sf http://localhost:4001/readyz && curl -sf http://localhost:3000/login -o /dev/null && exit 0
+            sleep 2
+          done
+          echo "services did not become ready"; tail -n 50 api.log worker.log web.log; exit 1
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test:e2e
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: e2e-diagnostics
+          path: |
+            playwright-report
+            test-results
+            api.log
+            worker.log
+            web.log
+          retention-days: 7

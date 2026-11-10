@@ -1,0 +1,16 @@
+{
+  "name": "@traceforge/demo-service",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx src/launcher.ts",
+    "start": "tsx src/launcher.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@traceforge/config": "workspace:*",
+    "@traceforge/telemetry": "workspace:*",
+    "fastify": "^5.12.7"
+  }
+}

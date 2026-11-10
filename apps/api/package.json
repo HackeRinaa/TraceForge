@@ -1,0 +1,42 @@
+{
+  "name": "@traceforge/api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/main.ts",
+    "build": "tsup",
+    "start": "node dist/main.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@clickhouse/client": "^1.24.1",
+    "@fastify/cookie": "^11.1.5",
+    "@fastify/cors": "^11.3.1",
+    "@opentelemetry/api": "^1.10.0",
+    "@opentelemetry/core": "3.0.0",
+    "@opentelemetry/exporter-trace-otlp-http": "0.300.0",
+    "@opentelemetry/instrumentation-http": "0.300.0",
+    "@opentelemetry/instrumentation-undici": "^0.34.0",
+    "@opentelemetry/resources": "3.0.0",
+    "@opentelemetry/sdk-node": "0.300.0",
+    "@opentelemetry/sdk-trace": "3.0.0",
+    "@traceforge/config": "workspace:*",
+    "@traceforge/contracts": "workspace:*",
+    "@traceforge/domain": "workspace:*",
+    "@traceforge/logger": "workspace:*",
+    "@traceforge/messaging": "workspace:*",
+    "@traceforge/storage": "workspace:*",
+    "@traceforge/telemetry": "workspace:*",
+    "drizzle-orm": "^0.45.4",
+    "fastify": "^5.12.7",
+    "kafkajs": "^2.2.4",
+    "pino": "^10.4.0",
+    "postgres": "^3.4.9",
+    "prom-client": "^15.1.3",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "tsup": "^9.0.0"
+  }
+}
